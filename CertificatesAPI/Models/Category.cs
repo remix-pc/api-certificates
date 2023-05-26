@@ -12,7 +12,6 @@ namespace CertificatesAPI.Models
         [StringLength(80)]
         public string? Name { get; set; }
 
-        [JsonIgnore]
         public ICollection<Certificate>? Certificates { get; set; }
 
 

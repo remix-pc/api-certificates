@@ -1,6 +1,8 @@
-﻿namespace CertificatesAPI.Services.Interface
+﻿using CertificatesAPI.Models;
+
+namespace CertificatesAPI.Services.Interface
 {
-    public interface ICertificateRepository
+    public interface ICertificateRepository : IRepository<Certificate>
     {
     }
 }

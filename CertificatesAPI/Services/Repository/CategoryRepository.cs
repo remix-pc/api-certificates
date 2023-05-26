@@ -13,7 +13,7 @@ namespace CertificatesAPI.Services.Repository
 
         public async Task<IEnumerable<Category>> GetCategoryCertificates()
         {
-            return await _context.Categories.Include(c => c.Certificates).ToArrayAsync();
+            return await _context.Categories.Include(c => c.Certificates).ToListAsync();
         }
     }
 }

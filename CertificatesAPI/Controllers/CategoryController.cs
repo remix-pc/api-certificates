@@ -61,6 +61,11 @@ namespace CertificatesAPI.Controllers
         public async Task<ActionResult> Put(int id, Category category)
         {
 
+            if(id != category.Id)
+            {
+                return BadRequest();
+            }
+
             _uof.CategoryRepository.Update(category);
             await _uof.Commit();
             return Ok(category);
