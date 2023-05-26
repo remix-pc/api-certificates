@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "zHYR2iKEKsPIoaxbUQog7DHGWOd2JEljAvFVmQBjt4s=",
+  "Source": "CertificatesAPI",
+  "BasePath": "_content/CertificatesAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
