@@ -2,7 +2,9 @@ using CertificatesAPI.Data;
 using CertificatesAPI.Services.Interface;
 using CertificatesAPI.Services.Repository;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using System.Text.Json.Serialization;
+using CertificatesAPI.DTOs.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,15 @@ string mysqlConnection = builder.Configuration.GetConnectionString("DefaultConne
 
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection)));
+
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+
+    mc.AddProfile(new MappingProfile());
+    
+});
+
 
 
 builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

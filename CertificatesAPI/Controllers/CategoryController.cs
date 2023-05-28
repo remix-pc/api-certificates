@@ -1,4 +1,6 @@
-﻿using CertificatesAPI.Models;
+﻿using AutoMapper;
+using CertificatesAPI.DTOs;
+using CertificatesAPI.Models;
 using CertificatesAPI.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,45 +14,63 @@ namespace CertificatesAPI.Controllers
     {
 
         private readonly IUnitOfWork _uof;
+        private readonly IMapper _mapper;
 
-        public CategoryController(IUnitOfWork context)
+        public CategoryController(IUnitOfWork context, IMapper mapper)
         {
             _uof = context;
+            _mapper = mapper;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> Get()
         {
-            return await _uof.CategoryRepository.Get().ToListAsync();
+            var category = await _uof.CategoryRepository.Get().ToListAsync();
+            var categoryDTO =  _mapper.Map<List<CategoryDTO>>(category);
+            return categoryDTO;
 
         }
 
         [HttpGet("certificate")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryCertificates()
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoryCertificates()
         {
             var certificates = await _uof.CategoryRepository.GetCategoryCertificates();
 
-            return Ok(certificates);
+            var certificatesDTO = _mapper.Map<List<CategoryDTO>>(certificates);
+
+            return Ok(certificatesDTO);
         }
 
         [HttpGet("{id}", Name = "ObterCategoria")]
-        public async Task<ActionResult<Category>> Get(int id)
+        public async Task<ActionResult<CategoryDTO>> Get(int id)
         {
             var category = await _uof.CategoryRepository.GetById(c => c.Id == id);
 
-            return category == null ? NotFound("Categoria não encontrada") : category;
+            var categoryDTO = _mapper.Map<CategoryDTO>(category);
+
+            return category == null ? NotFound("Categoria não encontrada") : categoryDTO;
 
         }
 
 
         [HttpPost]
 
-        public async Task<ActionResult> Post(Category category)
+        public async Task<ActionResult> Post(CategoryDTO categoryDTO)
         {
+
+            var category = _mapper.Map<Category>(categoryDTO);
+
+            if(category is null)
+            {
+                return BadRequest();
+            }
 
             _uof.CategoryRepository.Add(category);
             await _uof.Commit();
+
+
+            var categoryDto = _mapper.Map<CategoryDTO>(category);
 
             return new CreatedAtRouteResult("ObterCategoria", new { id = category.Id }, category);
 
@@ -58,8 +78,10 @@ namespace CertificatesAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Category category)
+        public async Task<ActionResult> Put(int id, CategoryDTO categoryDTO)
         {
+
+            var category = _mapper.Map<Category>(categoryDTO);
 
             if(id != category.Id)
             {
@@ -83,7 +105,9 @@ namespace CertificatesAPI.Controllers
             _uof.CategoryRepository.Delete(category);
             await _uof.Commit();
 
-            return Ok("Categoria deletada!" + category);
+            var categoryDTO = _mapper.Map<CategoryDTO>(category);
+
+            return Ok("Categoria deletada!" + categoryDTO);
 
         }
 
