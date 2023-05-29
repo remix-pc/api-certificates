@@ -1,4 +1,6 @@
-﻿using CertificatesAPI.Data;
+﻿using AutoMapper;
+using CertificatesAPI.Data;
+using CertificatesAPI.DTOs;
 using CertificatesAPI.Models;
 using CertificatesAPI.Services.Interface;
 using Microsoft.AspNetCore.Http;
@@ -13,48 +15,59 @@ namespace CertificatesAPI.Controllers
     {
 
         private readonly IUnitOfWork _uof;
+        private readonly IMapper _mapper;
 
-        public CertificateController(IUnitOfWork context)
+        public CertificateController(IUnitOfWork context, IMapper mapper)
         {
             _uof = context;
+            _mapper = mapper;
         }
 
 
 
         [HttpGet]
 
-        public async Task<ActionResult<IEnumerable<Certificate>>> Get()
+        public async Task<ActionResult<IEnumerable<CertificateDTO>>> Get()
         {
 
-            return await _uof.CertificateRepository.Get().ToListAsync();
+            var certificate = await _uof.CertificateRepository.Get().ToListAsync();
+            var certificateDTO = _mapper.Map<List<CertificateDTO>>(certificate);
+            return certificateDTO;
        
         }
 
         [HttpGet("{id}", Name = "ObterCertificado")]
 
-        public async Task<ActionResult<Certificate>> GetById(int id)
+        public async Task<ActionResult<CertificateDTO>> GetById(int id)
         {
 
             var certificate = await _uof.CertificateRepository.GetById(c => c.Id == id);
 
+            var certificateDTO = _mapper.Map<CertificateDTO>(certificate);
 
-            return certificate is null ? NotFound() : certificate;
+
+            return certificate is null ? NotFound() : certificateDTO;
 
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Certificate certificate)
+        public async Task<ActionResult> Post(CertificateDTO certificateDTO)
         {
+            var certificate = _mapper.Map<Certificate>(certificateDTO);
             _uof.CertificateRepository.Add(certificate);
             await _uof.Commit();
-            return new CreatedAtRouteResult("ObterCertificado", new { id = certificate.Id }, certificate);
+            var certificateDto = _mapper.Map<CertificateDTO>(certificate);
+            return new CreatedAtRouteResult("ObterCertificado", new { id = certificate.Id }, certificateDto);
         }
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Certificate certificate)
+        public async Task<ActionResult> Put(int id, CertificateDTO certificateDTO)
         {
+
+
+            var certificate = _mapper.Map<Certificate>(certificateDTO);
 
             if(id != certificate.Id)
             {
@@ -63,7 +76,8 @@ namespace CertificatesAPI.Controllers
 
             _uof.CertificateRepository.Update(certificate);
             await _uof.Commit();
-            return Ok(certificate);
+            var certificateDto = _mapper.Map<CertificateDTO>(certificate);
+            return Ok(certificateDto);
 
         }
 
@@ -74,6 +88,7 @@ namespace CertificatesAPI.Controllers
 
             var certificate = await _uof.CertificateRepository.GetById(c => c.Id == id);
 
+
             if(certificate is null)
             {
                 return NotFound("Nenhum certificado foi encontrado");
@@ -82,7 +97,9 @@ namespace CertificatesAPI.Controllers
             _uof.CertificateRepository.Delete(certificate);
             await _uof.Commit(); 
 
-            return Ok(certificate);
+            var certificateDTO = _mapper.Map<CertificateDTO>(certificate);
+
+            return Ok(certificateDTO);
         }
 
 
