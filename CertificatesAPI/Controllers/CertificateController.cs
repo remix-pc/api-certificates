@@ -80,13 +80,14 @@ namespace CertificatesAPI.Controllers
                 return BadRequest("Not found");
             }
 
+            string guid = Guid.NewGuid().ToString();
 
-            using (var stream = System.IO.File.Create(urlPath + "\\" + Guid.NewGuid().ToString() + objFile.FileName))
+            using (var stream = System.IO.File.Create(urlPath + "\\" + guid + objFile.FileName))
             {
 
                 await objFile.CopyToAsync(stream);
                 stream.Flush();
-                certificate.ImageCertificatePath = urlPath + "\\" + Guid.NewGuid().ToString() + objFile.FileName;
+                certificate.ImageCertificatePath = urlPath + "\\" + guid + objFile.FileName;
             }
 
             _uof.CertificateRepository.Update(certificate);
