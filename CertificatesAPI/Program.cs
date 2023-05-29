@@ -36,6 +36,9 @@ builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOption
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 var app = builder.Build();
 

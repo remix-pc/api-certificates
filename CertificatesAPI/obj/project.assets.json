@@ -1395,19 +1395,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\guimo\\.nuget\\packages\\": {}
+    "C:\\Users\\SUI7CA\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\guimo\\OneDrive\\Área de Trabalho\\api-certificate\\api-certificates\\CertificatesAPI\\CertificatesAPI.csproj",
+      "projectUniqueName": "C:\\Users\\SUI7CA\\Documents\\Guilherme\\Projetos\\CertificatesAPI\\CertificatesAPI\\CertificatesAPI.csproj",
       "projectName": "CertificatesAPI",
-      "projectPath": "C:\\Users\\guimo\\OneDrive\\Área de Trabalho\\api-certificate\\api-certificates\\CertificatesAPI\\CertificatesAPI.csproj",
-      "packagesPath": "C:\\Users\\guimo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\guimo\\OneDrive\\Área de Trabalho\\api-certificate\\api-certificates\\CertificatesAPI\\obj\\",
+      "projectPath": "C:\\Users\\SUI7CA\\Documents\\Guilherme\\Projetos\\CertificatesAPI\\CertificatesAPI\\CertificatesAPI.csproj",
+      "packagesPath": "C:\\Users\\SUI7CA\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\SUI7CA\\Documents\\Guilherme\\Projetos\\CertificatesAPI\\CertificatesAPI\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\guimo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SUI7CA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

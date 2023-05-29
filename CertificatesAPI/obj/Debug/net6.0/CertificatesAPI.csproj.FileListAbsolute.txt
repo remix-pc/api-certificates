@@ -52,3 +52,4 @@ C:\Users\SUI7CA\Documents\Guilherme\Projetos\CertificatesAPI\CertificatesAPI\obj
 C:\Users\SUI7CA\Documents\Guilherme\Projetos\CertificatesAPI\CertificatesAPI\obj\Debug\net6.0\CertificatesAPI.pdb
 C:\Users\SUI7CA\Documents\Guilherme\Projetos\CertificatesAPI\CertificatesAPI\obj\Debug\net6.0\CertificatesAPI.genruntimeconfig.cache
 C:\Users\SUI7CA\Documents\Guilherme\Projetos\CertificatesAPI\CertificatesAPI\obj\Debug\net6.0\ref\CertificatesAPI.dll
+C:\Users\SUI7CA\Documents\Guilherme\Projetos\CertificatesAPI\CertificatesAPI\bin\Debug\net6.0\AutoMapper.dll

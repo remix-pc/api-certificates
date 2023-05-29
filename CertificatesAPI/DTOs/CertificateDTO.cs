@@ -8,6 +8,8 @@
         
         public string? Description { get; set; }
 
+        public string? ImageCertificatePath { get; set; }
+
         public int CategoryId { get; set; }
 
 
