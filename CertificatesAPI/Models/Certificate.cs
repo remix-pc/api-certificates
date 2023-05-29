@@ -17,7 +17,6 @@ namespace CertificatesAPI.Models
         [StringLength(300)]
         public string? description { get; set; }
 
-        [Required]
         public string? ImageCertificatePath { get; set; }
 
 

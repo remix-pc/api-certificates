@@ -57,8 +57,6 @@ namespace CertificatesAPI.Controllers
         {
             var certificate = _mapper.Map<Certificate>(certificateDTO);
 
-
-
             _uof.CertificateRepository.Add(certificate);
             await _uof.Commit();
             var certificateDto = _mapper.Map<CertificateDTO>(certificate);
