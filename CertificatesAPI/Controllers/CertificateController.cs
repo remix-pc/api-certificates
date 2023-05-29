@@ -16,6 +16,7 @@ namespace CertificatesAPI.Controllers
 
         private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
+        private readonly string urlPath = "C:\\Users\\SUI7CA\\Documents\\Guilherme\\images";
 
         public CertificateController(IUnitOfWork context, IMapper mapper)
         {
@@ -55,10 +56,48 @@ namespace CertificatesAPI.Controllers
         public async Task<ActionResult> Post(CertificateDTO certificateDTO)
         {
             var certificate = _mapper.Map<Certificate>(certificateDTO);
+
+
+
             _uof.CertificateRepository.Add(certificate);
             await _uof.Commit();
             var certificateDto = _mapper.Map<CertificateDTO>(certificate);
             return new CreatedAtRouteResult("ObterCertificado", new { id = certificate.Id }, certificateDto);
+        }
+
+
+        [HttpPost("image/{id}")]
+        public async Task<ActionResult> UploadCertificateImage(IFormFile objFile, int id)
+        {
+
+            if (objFile.Length < 0)
+            {
+                return BadRequest("Invalid image for certificate");
+            }
+
+            var certificate = await _uof.CertificateRepository.GetById(c => c.Id == id);
+
+            if(certificate is null)
+            {
+                return BadRequest("Not found");
+            }
+
+
+            using (var stream = System.IO.File.Create(urlPath + "\\" + Guid.NewGuid().ToString() + objFile.FileName))
+            {
+
+                await objFile.CopyToAsync(stream);
+                stream.Flush();
+                certificate.ImageCertificatePath = urlPath + "\\" + Guid.NewGuid().ToString() + objFile.FileName;
+            }
+
+            _uof.CertificateRepository.Update(certificate);
+
+            await _uof.Commit();
+
+            return Ok("Image certificate uploaded with success");
+
+
         }
 
 
@@ -81,7 +120,7 @@ namespace CertificatesAPI.Controllers
 
         }
 
-        [HttpDelete("")]
+        [HttpDelete("{id}")]
 
         public async Task<ActionResult> Delete(int id)
         {
