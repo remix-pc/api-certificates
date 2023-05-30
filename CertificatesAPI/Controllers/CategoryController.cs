@@ -2,6 +2,7 @@
 using CertificatesAPI.DTOs;
 using CertificatesAPI.Models;
 using CertificatesAPI.Services.Interface;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace CertificatesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("PermissionApiRequest")]
     public class CategoryController : ControllerBase
     {
 

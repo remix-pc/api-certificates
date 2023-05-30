@@ -22,6 +22,11 @@ string mysqlConnection = builder.Configuration.GetConnectionString("DefaultConne
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection)));
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("PermissionApiRequest", c => c.WithOrigins("your origin here").WithMethods("GET"));
+});
+
 
 var mappingConfig = new MapperConfiguration(mc =>
 {
@@ -50,6 +55,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
