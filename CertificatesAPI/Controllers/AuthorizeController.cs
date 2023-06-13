@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace CertificatesAPI.Controllers
@@ -46,10 +48,11 @@ namespace CertificatesAPI.Controllers
                 return BadRequest(result.Errors);
             }
             await _signInManager.SignInAsync(user, false);
-            return Ok(GeraToken(model));
+            return Ok();
             
         }
 
+        
         [HttpPost("Login")]
         public async Task<ActionResult> Login([FromBody]UserDTO userInfo)
         {
@@ -61,7 +64,9 @@ namespace CertificatesAPI.Controllers
             //Verifica as credenciais do usuário e retorna um valor
 
 
-            var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure:false);
+            var user = await _userManager.FindByEmailAsync(userInfo.Email);
+
+            var result = await _signInManager.PasswordSignInAsync(user, userInfo.Password, isPersistent: false, lockoutOnFailure:false);
 
             return result.Succeeded ? Ok(GeraToken(userInfo)) : BadRequest("Login inválido!");
 

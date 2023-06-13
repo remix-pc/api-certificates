@@ -3,13 +3,17 @@ using CertificatesAPI.Data;
 using CertificatesAPI.DTOs;
 using CertificatesAPI.Models;
 using CertificatesAPI.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CertificatesAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
+    [EnableCors("PermissionApiRequest")]
     [ApiController]
     public class CertificateController : ControllerBase
     {
