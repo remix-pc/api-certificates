@@ -23,7 +23,6 @@ namespace CertificatesAPI.Models
         public int CategoryId { get; set; }
 
 
-        [JsonIgnore]
         public Category? Categories { get; set; }
 
     }

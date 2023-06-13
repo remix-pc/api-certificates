@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Text.Json.Serialization;
 using CertificatesAPI.DTOs.Mappings;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("PermissionApiRequest", c => c.WithOrigins("your origin here").WithMethods("GET"));
+    opt.AddPolicy("PermissionApiRequest", c => c.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build());
 });
 
 
@@ -58,9 +59,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors("PermissionApiRequest");
 
-app.UseAuthentication(); 
+app.UseAuthentication();
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Static/Images")),
+    RequestPath = new PathString("/Static/Images")
+
+});
 
 app.UseAuthorization();
 

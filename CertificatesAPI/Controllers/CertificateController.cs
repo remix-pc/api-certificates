@@ -16,7 +16,7 @@ namespace CertificatesAPI.Controllers
 
         private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
-        private readonly string urlPath = "C:\\Users\\SUI7CA\\Documents\\Guilherme\\images";
+        private readonly string urlPath = @"Static/Images";
 
         public CertificateController(IUnitOfWork context, IMapper mapper)
         {
