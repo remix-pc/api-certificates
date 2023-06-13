@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 using CertificatesAPI.DTOs.Mappings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +24,21 @@ builder.Services.AddSwaggerGen();
 string mysqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
-
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection)));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => opt.TokenValidationParameters = new TokenValidationParameters
+{
+
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidAudience = builder.Configuration["TokenConfiguration:Audience"],
+    ValidIssuer = builder.Configuration["TokenConfiguration:Issuer"],
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["wt:key"]))
+
+});
 
 builder.Services.AddCors(opt =>
 {
