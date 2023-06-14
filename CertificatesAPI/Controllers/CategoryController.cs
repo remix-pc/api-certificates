@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CertificatesAPI.Controllers
 {
-    //[Authorize (AuthenticationSchemes = "Bearer")]
+
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("PermissionApiRequest")]
@@ -58,7 +58,7 @@ namespace CertificatesAPI.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize(AuthenticationSchemes = "Bearer")]
 
         public async Task<ActionResult> Post(CategoryDTO categoryDTO)
         {
@@ -81,7 +81,7 @@ namespace CertificatesAPI.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Put(int id, CategoryDTO categoryDTO)
         {
 
@@ -99,7 +99,7 @@ namespace CertificatesAPI.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Delete(int id)
         {
             var category = await _uof.CategoryRepository.GetById(c => c.Id == id);

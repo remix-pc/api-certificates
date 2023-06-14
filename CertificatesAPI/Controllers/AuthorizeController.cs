@@ -1,4 +1,5 @@
 ﻿using CertificatesAPI.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -31,6 +32,12 @@ namespace CertificatesAPI.Controllers
             return "AutorizaController :: Acessado em: " + DateTime.Now.ToLongTimeString();
         }
 
+        [HttpGet("validate"), Authorize(AuthenticationSchemes = "Bearer")]
+        public ActionResult Validate()
+        {
+            return Ok("Ok!");
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser([FromBody]UserDTO model)
         {
@@ -56,7 +63,7 @@ namespace CertificatesAPI.Controllers
 
         
         [HttpPost("Login")]
-        public async Task<ActionResult> Login([FromBody]UserDTO userInfo)
+        public async Task<ActionResult> Login([FromBody]Login userInfo)
         {
             //Verifica se o modelo é válido
             if (!ModelState.IsValid)
@@ -68,14 +75,14 @@ namespace CertificatesAPI.Controllers
 
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
 
-            var result = await _signInManager.PasswordSignInAsync(user, userInfo.Password, isPersistent: false, lockoutOnFailure:false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, userInfo.Password, isPersistent: false, lockoutOnFailure:false);
 
-            return result.Succeeded ? Ok(GeraToken(userInfo)) : BadRequest("Login inválido!");
+            return result.Succeeded ? Ok(GeraToken(user)) : BadRequest("Login inválido!");
 
 
         }        
 
-        private UserToken GeraToken(UserDTO userInfo)
+        private UserToken GeraToken(IdentityUser userInfo)
         {
             var claims = new[]
             {
@@ -116,4 +123,11 @@ namespace CertificatesAPI.Controllers
         }
 
     }
+
+    public class Login
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
 }

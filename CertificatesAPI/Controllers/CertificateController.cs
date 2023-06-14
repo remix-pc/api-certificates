@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CertificatesAPI.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+   
     [Route("api/[controller]")]
     [EnableCors("PermissionApiRequest")]
     [ApiController]
@@ -56,7 +56,7 @@ namespace CertificatesAPI.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Post(CertificateDTO certificateDTO)
         {
             var certificate = _mapper.Map<Certificate>(certificateDTO);
@@ -68,7 +68,7 @@ namespace CertificatesAPI.Controllers
         }
 
 
-        [HttpPost("image/{id}")]
+        [HttpPost("image/{id}"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> UploadCertificateImage(IFormFile objFile, int id)
         {
 
@@ -104,7 +104,7 @@ namespace CertificatesAPI.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult> Put(int id, CertificateDTO certificateDTO)
         {
 
@@ -123,7 +123,7 @@ namespace CertificatesAPI.Controllers
 
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(AuthenticationSchemes = "Bearer")]
 
         public async Task<ActionResult> Delete(int id)
         {
@@ -143,7 +143,6 @@ namespace CertificatesAPI.Controllers
 
             return Ok(certificateDTO);
         }
-
 
 
     }
