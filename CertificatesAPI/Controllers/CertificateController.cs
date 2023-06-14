@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CertificatesAPI.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [EnableCors("PermissionApiRequest")]
     [ApiController]

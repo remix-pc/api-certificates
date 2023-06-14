@@ -34,6 +34,8 @@ namespace CertificatesAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser([FromBody]UserDTO model)
         {
+            
+
             var user = new IdentityUser
             {
                 UserName = model.UserName,
