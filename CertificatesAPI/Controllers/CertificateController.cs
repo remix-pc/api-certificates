@@ -53,7 +53,14 @@ namespace CertificatesAPI.Controllers
 
             return certificate is null ? NotFound() : certificateDTO;
 
+        }
 
+        [HttpGet("category/{id}")]
+        public async Task<IEnumerable<Certificate>> GetByCategoryId(int id)
+        {
+            var certificate = await _uof.CertificateRepository.GetCertificatesCategory(id);
+            //var certificateDTO = _mapper.Map<CertificateDTO>(certificate);
+            return certificate is null ? null : certificate;
         }
 
         [HttpPost, Authorize(AuthenticationSchemes = "Bearer")]

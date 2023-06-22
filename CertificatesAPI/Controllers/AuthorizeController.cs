@@ -63,7 +63,7 @@ namespace CertificatesAPI.Controllers
 
         
         [HttpPost("Login")]
-        public async Task<ActionResult> Login([FromBody]Login userInfo)
+        public async Task<ActionResult> Login([FromBody]LoginDTO userInfo)
         {
             //Verifica se o modelo é válido
             if (!ModelState.IsValid)
@@ -124,7 +124,7 @@ namespace CertificatesAPI.Controllers
 
     }
 
-    public class Login
+    public class LoginDTO
     {
         public string Email { get; set; }
         public string Password { get; set; }
