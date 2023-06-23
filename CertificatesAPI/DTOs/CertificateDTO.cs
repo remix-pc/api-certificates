@@ -1,4 +1,6 @@
-﻿namespace CertificatesAPI.DTOs
+﻿using CertificatesAPI.Models;
+
+namespace CertificatesAPI.DTOs
 {
     public class CertificateDTO
     {
@@ -11,7 +13,6 @@
         public string? ImageCertificatePath { get; set; }
 
         public int CategoryId { get; set; }
-
 
     }
 }

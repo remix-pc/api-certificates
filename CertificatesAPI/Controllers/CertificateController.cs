@@ -56,11 +56,11 @@ namespace CertificatesAPI.Controllers
         }
 
         [HttpGet("category/{id}")]
-        public async Task<IEnumerable<Certificate>> GetByCategoryId(int id)
+        public async Task<ActionResult<IEnumerable<Certificate>>> GetByCategoryId(int id)
         {
             var certificate = await _uof.CertificateRepository.GetCertificatesCategory(id);
-            //var certificateDTO = _mapper.Map<CertificateDTO>(certificate);
-            return certificate is null ? null : certificate;
+            var certificateDTO = _mapper.Map<List<CertificateDTO>>(certificate);
+            return Ok(certificateDTO);
         }
 
         [HttpPost, Authorize(AuthenticationSchemes = "Bearer")]
